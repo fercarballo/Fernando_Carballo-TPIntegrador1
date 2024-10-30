@@ -1,17 +1,18 @@
-# Definimos las clases principales: Alumno y Materia
+# Trabajo Integrador: Organizador Académico
+
 class Alumno:
     def __init__(self, nombre, apellido, dni, beca=False):
         self.nombre = nombre
         self.apellido = apellido
-        self.__dni = dni
+        self.__dni = dni  
         self.beca = beca  # Indica si el alumno es becado o no
-        self.materias = []
+        self.materias = []  # Lista de materias del alumno
 
     def agregar_materia(self, materia):
         self.materias.append(materia)
 
     def mostrar_informacion(self):
-        # Muestra la información del alumno
+        # Muestra la información básica del alumno
         beca_status = "Becado" if self.beca else "No Becado"
         print(f"Nombre: {self.nombre} {self.apellido}, DNI: {self.__dni}, Estado: {beca_status}")
         for materia in self.materias:
@@ -20,19 +21,18 @@ class Alumno:
 class Materia:
     def __init__(self, nombre):
         self.nombre = nombre
-        self.notas = []
+        self.notas = []  # Lista de notas de la materia
 
     def agregar_nota(self, nota):
         self.notas.append(nota)
 
     def calcular_promedio(self):
-        #promedio de las notas
+        # Calcula y devuelve el promedio de las notas
         if len(self.notas) == 0:
             return 0
         return sum(self.notas) / len(self.notas)
 
 
-# clases derivadas de Alumno
 class AlumnoRegular(Alumno):
     def __init__(self, nombre, apellido, dni):
         super().__init__(nombre, apellido, dni, beca=False)
@@ -42,31 +42,79 @@ class AlumnoBecado(Alumno):
         super().__init__(nombre, apellido, dni, beca=True)
 
     def calcular_promedio(self):
-        #si el alumno tiene beca, el promedio se ajusta
         promedio = super().calcular_promedio()
         return promedio * 1.1  # Los alumnos becados tienen un 10% extra en el promedio
 
-#Clase Profesor
 class Profesor:
     def __init__(self, nombre, apellido):
         self.nombre = nombre
         self.apellido = apellido
-        self.materias = []
+        self.materias = []  # Lista de materias asignadas
 
     def asignar_materia(self, materia):
         self.materias.append(materia)
 
     def mostrar_materias(self):
-        #materias asignadas al profesor
+        # Muestra las materias asignadas al profesor
         print(f"Profesor: {self.nombre} {self.apellido}")
         for materia in self.materias:
             print(f"Materia: {materia.nombre}")
 
 
-# Menú interactivo más comodo para interactuar y no meter codigo estático. quería averiguar como insertar un excel para importar alumnos pero ya tendría que usar una libreria y se escapa del Scope del trabajo práctico.
 def menu():
-    alumnos = []
-    profesores = []
+    # Lista inicial de alumnos
+    alumnos = [
+        AlumnoRegular('Juan', 'Pérez', '12345678'),
+        AlumnoBecado('Ana', 'González', '87654321'),
+    ]
+    
+    # materias predefinidas a los alumnos
+    matematica = Materia('Matemática')
+    matematica.agregar_nota(7.5)
+    matematica.agregar_nota(8.0)
+    alumnos[0].agregar_materia(matematica)
+
+    historia = Materia('Historia')
+    historia.agregar_nota(9.0)
+    alumnos[1].agregar_materia(historia)
+
+    # Lista inicial de profesores
+    profesores = [
+        Profesor('Carlos', 'Fernández'),
+        Profesor('María', 'López')
+    ]
+    
+    # materias a los profesores
+    profesores[0].asignar_materia(matematica)
+    profesores[1].asignar_materia(historia)
+
+    # Lista inicial de alumnos
+    alumnos = [
+        AlumnoRegular('Juan', 'Pérez', '12345678'),
+        AlumnoBecado('Ana', 'González', '87654321'),
+    ]
+    
+    # materias predefinidas a los alumnos
+    matematica = Materia('Matemática')
+    matematica.agregar_nota(7.5)
+    matematica.agregar_nota(8.0)
+    alumnos[0].agregar_materia(matematica)
+
+    historia = Materia('Historia')
+    historia.agregar_nota(9.0)
+    alumnos[1].agregar_materia(historia)
+
+    # Lista inicial de profesores
+    profesores = [
+        Profesor('Carlos', 'Fernández'),
+        Profesor('María', 'López')
+    ]
+    
+    # materias a los profesores
+    profesores[0].asignar_materia(matematica)
+    profesores[1].asignar_materia(historia)
+
+    # La lista de alumnos y profesores ya tiene algunos valores iniciales cargados por las dudas
     while True:
         print("\n--- Organizador Académico ---")
         print("1. Agregar Alumno")
@@ -167,5 +215,5 @@ def menu():
         else:
             print("Opción no válida. Intente nuevamente.")
 
-# Ejecutar el menú
+# Ejecutar el menú interactivo
 menu()
